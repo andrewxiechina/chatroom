@@ -84,6 +84,7 @@ app.controller("HomeTabCtrl", function($scope){
 });
 
 app.controller("ChatCtrl", function($scope){
+  $scope.msg = "";
   $scope.messages = [
     {
       name: "Venkman",
@@ -96,5 +97,15 @@ app.controller("ChatCtrl", function($scope){
       content: "Do you want to practice some English?"
     }
   ];
+
+  $scope.send = function(msg){
+
+    $scope.messages.push({
+      name: "Me",
+      type: "Text",
+      content: msg
+    });
+  };
+
 
 });

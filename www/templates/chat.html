@@ -4,7 +4,7 @@
     <div class="list">
 
       <div ng-repeat="msg in messages">
-        <a class="item item-avatar" href="#">
+        <a class="item item-avatar" href="#" ng-click="playAudio()">
           <img ng-src="img/{{msg.name}}.jpg">
           <h2>{{msg.name}}</h2>
           <p>{{msg.content}}</p>
@@ -14,9 +14,11 @@
 
     <div class="bar bar-header item-input-inset">
       <label class="item-input-wrapper">
-        <input type="text" placeholder="Say something here...">
-        <i class="icon ion-mic-a placeholder-icon" ng-click="send()"></i>
+        <input type="text" placeholder="Say something here..." ng-model="msg">
       </label>
+      <button ng-click="send(msg);msg='';">
+        <i class="icon ion-mic-a placeholder-icon" ></i>
+      </button>
     </div>
 
 
