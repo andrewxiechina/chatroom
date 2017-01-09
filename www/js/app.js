@@ -49,19 +49,12 @@ app.config(function($stateProvider, $urlRouterProvider) {
         }
       }
     })
-    .state('tabs.facts2', {
-      url: "/facts2",
+    .state('tabs.chat', {
+      url: "/chat",
       views: {
-        'home-tab': {
-          templateUrl: "templates/facts2.html"
-        }
-      }
-    })
-    .state('tabs.about', {
-      url: "/about",
-      views: {
-        'about-tab': {
-          templateUrl: "templates/about.html"
+        'chat-tab': {
+          templateUrl: "templates/chat.html",
+          controller: "ChatCtrl"
         }
       }
     })
@@ -84,4 +77,25 @@ app.config(function($stateProvider, $urlRouterProvider) {
 
 
    $urlRouterProvider.otherwise("/tab/home");
+});
+
+app.controller("HomeTabCtrl", function($scope){
+
+});
+
+app.controller("ChatCtrl", function($scope){
+  $scope.messages = [
+    {
+      name: "Venkman",
+      type: "Text",
+      content: "Hello there!"
+    },
+    {
+      name: "Venkman",
+      type: "Text",
+      content: "Do you want to practice some English?"
+    }
+  ];
+
+
 });
