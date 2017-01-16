@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
+<script src="//www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/angularFire/2.2.0/angularfire.min.js"></script>
+
+<style>
+.container.auth{
+  max-width: 800px;
+}
+.container.main{
+  max-width: 1000px;
+}
+.container.chat{
+  max-width: 600px;
+}
+</style>
+
+</head>
+<body ng-app="angello">
+  <!-- nav-bar -->
+  <div class="header clearfix">
+    <nav>
+      <ul class="nav nav-pills pull-right" ng-controller="AuthCtrl">
+        <li role="presentation" class="active"><a href="#/">Home</a></li>
+        <li role="presentation"><a href="#chat">Chat</a></li>
+        <li role="presentation" ng-hide="currentUser"><a href="#login">Log In</a></li>
+        <li role="presentation" ng-hide="currentUser"><a href="#signup">Sign Up</a></li>
+        <li role="presentation" ng-show="currentUser"><a href="" ng-click="logOut()">Log out: <{{currentUser.email}}></a></li>
+      </ul>
+    </nav>
+    <h3 class="text-muted">Chinese Master</h3>
+  </div>
+
+  <div class="container main">
+    <div ng-view></div>
+  </div>
+
+  <!-- footer-->
+  <footer class="footer">
+  <p>© 2016 Company, Inc.</p>
+ </footer>
+
+<script>
+var app = angular.module("angello", ["ngRoute", "firebase"]);
+app.config(["$routeProvider", function($routeProvider) {
+  $routeProvider
+  .when("/", {
+      templateUrl : "home/home.html"
+  })
+  .when("/login", {
+      templateUrl : "auth/login.html",
+      controller: "AuthCtrl"
+  })
+  .when("/signup", {
+      templateUrl : "auth/signup.html",
+      controller: "AuthCtrl"
+  })
+  .when("/changepassword", {
+      templateUrl : "auth/changepassword.html",
+      controller: "AuthCtrl"
+  })
+  .when("/chat", {
+      templateUrl : "chat/chat.html",
+      controller: "AuthCtrl"
+  })
+  .otherwise({
+    redirectTo: '/'
+  });
+
+  var config = {
+    apiKey: "AIzaSyAAHzjh5NJiNK6fengjnrL1UkymQQ1pRFY",
+    authDomain: "chatroom-f21fc.firebaseapp.com",
+    databaseURL: "https://chatroom-f21fc.firebaseio.com",
+    storageBucket: "chatroom-f21fc.appspot.com",
+    messagingSenderId: "281884000267"
+  };
+  firebase.initializeApp(config);
+}]);
+
+app.factory("Auth", ["$firebaseAuth",
+  function($firebaseAuth) {
+    return $firebaseAuth();
+  }
+]);
+
+app.controller("AuthCtrl", ["$rootScope", "$scope", "Auth", function($rootScope, $scope, Auth) {
+    console.log(Auth);
+
+    $scope.logIn = function() {
+      Auth.$signInWithEmailAndPassword($scope.email, $scope.password)
+        .then(function(user) {
+            $scope.message = "User logged in with id: " + user.uid;
+          }).catch(function(error) {
+            $scope.error = error;
+          });
+    }
+
+    Auth.$onAuthStateChanged(function(user) {
+      $rootScope.currentUser = user;
+      if (user) {
+        console.log("Signed in as:", user.uid);
+        user.displayName = "Example";
+      } else {
+        console.log("Signed out");
+      }
+    });
+
+    $scope.signUp = function() {
+      Auth.$createUserWithEmailAndPassword($scope.email, $scope.password)
+        .then(function(user) {
+          $scope.message = "User created with uid: " + user.uid;
+        }).catch(function(error) {
+          $scope.error = error;
+        });
+    };
+
+    $scope.logOut = function() {
+      Auth.$signOut();
+    }
+
+    $scope.changePassword = function() {
+      Auth.$updatePassword($scope.newPassword);
+    }
+
+
+}]);
+
+</script>
+</body>
+</html>
