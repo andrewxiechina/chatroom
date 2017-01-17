@@ -9,14 +9,14 @@
   </ul>
   <div id="chat-input" class="row">
     <div class="input-group">
-      <span class="input-group-btn">
+      <span class="input-group-btn" ng-click="speak()">
         <button class="btn btn-default" type="button">
           <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
         </button>
       </span>
-      <input type="text" class="form-control" placeholder="Say something here...">
+      <input type="text" class="form-control" placeholder="Say something here..." ng-model="newMessage">
       <span class="input-group-btn">
-        <button class="btn btn-default" type="button">Send</button>
+        <button class="btn btn-default" type="button" ng-click="send()">Send</button>
       </span>
     </div><!-- /input-group -->
   </div><!-- /.row -->

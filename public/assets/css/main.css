@@ -44,18 +44,18 @@ body{
 .chat-msg.img{
 	width: 15%;
 	height: 90px;
-	width: 90px;
+	width: 90px;`
 	display: inline;
   position: absolute;
 }
 
 #chat .input-group input{
-  height: 70px;
-  font-size: 40px;
+  height: 100px;
+  font-size: 60px;
 }
 #chat .input-group button{
-  height: 70px;
-  font-size: 40px;
+  height: 100px;
+  font-size: 60px;
 }
 #chat-input{
 	padding-left: 10px;
