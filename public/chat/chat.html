@@ -1,44 +1,9 @@
-<div class="container chat">
-  <ul class="list-group">
-  <li class="list-group-item">
-     <span class="glyphicon glyphicon glyphicon-triangle-right pull-right" aria-hidden="true"></span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
-  </li>
-  <li class="list-group-item">
-    <span class="badge">14</span>
-    Cras justo odio
+<ul id="chat">
+  <li class="chat-msg" ng-repeat="msg in messages">
+    <div class="chat-msg container" ng-if="msg.msgType == 'text' ">
+      <img class="chat-msg img" ng-src="assets/images/user.jpg">
+      <div class="chat-msg msg">{{msg.content}}</div>
+      <br style="clear: both">
+    </div>
   </li>
 </ul>
-</div>

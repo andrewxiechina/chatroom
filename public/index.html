@@ -1,50 +1,21 @@
 <!DOCTYPE html>
 <html>
 <head>
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-route.js"></script>
 <script src="//www.gstatic.com/firebasejs/3.6.4/firebase.js"></script>
 <script src="//cdnjs.cloudflare.com/ajax/libs/angularFire/2.2.0/angularfire.min.js"></script>
-
-<style>
-.container.auth{
-  max-width: 800px;
-}
-.container.main{
-  max-width: 1000px;
-}
-.container.chat{
-  max-width: 600px;
-}
-</style>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-animate.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-aria.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/angularjs/1.5.5/angular-messages.min.js"></script>
+<link rel="stylesheet" type="text/css" href="assets/css/main.css">
 
 </head>
 <body ng-app="angello">
-  <!-- nav-bar -->
-  <div class="header clearfix">
-    <nav>
-      <ul class="nav nav-pills pull-right" ng-controller="AuthCtrl">
-        <li role="presentation" class="active"><a href="#/">Home</a></li>
-        <li role="presentation"><a href="#chat">Chat</a></li>
-        <li role="presentation" ng-hide="currentUser"><a href="#login">Log In</a></li>
-        <li role="presentation" ng-hide="currentUser"><a href="#signup">Sign Up</a></li>
-        <li role="presentation" ng-show="currentUser"><a href="" ng-click="logOut()">Log out: <{{currentUser.email}}></a></li>
-      </ul>
-    </nav>
-    <h3 class="text-muted">Chinese Master</h3>
-  </div>
 
-  <div class="container main">
-    <div ng-view></div>
-  </div>
-
-  <!-- footer-->
-  <footer class="footer">
-  <p>© 2016 Company, Inc.</p>
- </footer>
+  <div ng-view></div>
 
 <script>
 var app = angular.module("angello", ["ngRoute", "firebase"]);
@@ -67,7 +38,7 @@ app.config(["$routeProvider", function($routeProvider) {
   })
   .when("/chat", {
       templateUrl : "chat/chat.html",
-      controller: "AuthCtrl"
+      controller: "ChatCtrl"
   })
   .otherwise({
     redirectTo: '/'
@@ -95,7 +66,7 @@ app.controller("AuthCtrl", ["$rootScope", "$scope", "Auth", function($rootScope,
     $scope.logIn = function() {
       Auth.$signInWithEmailAndPassword($scope.email, $scope.password)
         .then(function(user) {
-            $scope.message = "User logged in with id: " + user.uid;
+            $scope.message = "User logged in with id: " + user.displayName;
           }).catch(function(error) {
             $scope.error = error;
           });
@@ -104,8 +75,7 @@ app.controller("AuthCtrl", ["$rootScope", "$scope", "Auth", function($rootScope,
     Auth.$onAuthStateChanged(function(user) {
       $rootScope.currentUser = user;
       if (user) {
-        console.log("Signed in as:", user.uid);
-        user.displayName = "Example";
+        console.log("Signed in as:", user.displayName);
       } else {
         console.log("Signed out");
       }
@@ -115,6 +85,7 @@ app.controller("AuthCtrl", ["$rootScope", "$scope", "Auth", function($rootScope,
       Auth.$createUserWithEmailAndPassword($scope.email, $scope.password)
         .then(function(user) {
           $scope.message = "User created with uid: " + user.uid;
+          $scope.changeDisplayName($scope.name);
         }).catch(function(error) {
           $scope.error = error;
         });
@@ -128,7 +99,76 @@ app.controller("AuthCtrl", ["$rootScope", "$scope", "Auth", function($rootScope,
       Auth.$updatePassword($scope.newPassword);
     }
 
+    $scope.changeDisplayName = function(newName) {
+      $rootScope.currentUser.updateProfile({
+          displayName: newName
+        }).then(function() {
+            console.log("Display name changed.");
+        }, function(error) {
+            // An error happened.
+        });
+    }
+}]);
 
+app.controller("ChatCtrl", ["$rootScope", "$scope", function ($rootScope, $scope) {
+  $scope.newMessage = "";
+  $scope.messages = [{
+    toUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    fromUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    createTime: 1348831860,
+    msgType: "text",
+    content: "Hello there!",
+    msgId: 1234567890123456
+  },
+  {
+    toUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    fromUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    createTime: 1348831860,
+    msgType: "text",
+    content: "What are you up to today?",
+    msgId: 1234567890123456
+  },
+  {
+    toUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    fromUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    createTime: 1348831860,
+    msgType: "text",
+    content: "Ready for some Chinese?",
+    msgId: 1234567890123456
+  },
+  {
+    toUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    fromUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    createTime: 1348831860,
+    msgType: "text",
+    content: "zh&#333;nggu&#243; sh&#236; sh&#236;ji&#232; zu&#236; h&#462;o de gu&#243;ji&#257",
+    msgId: 1234567890123456
+  },
+    {
+    toUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    fromUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    createTime: 1348831860,
+    msgType: "text",
+    content: "What are you up to today?What are you up to today?What are you up to today?What are you up to today?What are you up to today?",
+    msgId: 1234567890123456
+  }];
+
+  $scope.send = function(){
+    var message = {
+    toUserId: "GTf9VjmNVVO6wYi6pc90DHqdck73",
+    fromUserId: $rootScope.currentUser.uid,
+    createTime: 1348831860,
+    msgType: "text",
+    content: $scope.newMessage,
+    msgId: 1234567890123456
+  }
+    $scope.messages.push(message);
+    console.log(message);
+  };
+
+  $scope.speak = function () {
+    
+  }
 }]);
 
 </script>
