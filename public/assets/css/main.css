@@ -1,7 +1,7 @@
 body{
 	background: rgb(230,230,230);
 }
-#chat {
+#chat ul {
 	list-style: none;
 	height:100%;
 }
@@ -26,19 +26,19 @@ body{
     left: 100px;
 }
 .chat-msg.msg::before{
-  font-size: 0px;
-  content: "";
+	font-size: 0px;
+	content: "";
 	width: 0; 
 	height: 0; 
-  display: relative;
-  z-index:99;
+	display: relative;
+	z-index:99;
 	border-top: 10px solid transparent;
 	border-bottom: 10px solid transparent; 
 	border-left: 10px solid transparent;
 	border-right:10px solid rgb(50,205,50); 
-  position: relative;
-  left:-20px;
-  top:-10px;
+	position: relative;
+	left:-20px;
+	top:-10px;
 }
 
 .chat-msg.img{
@@ -47,4 +47,19 @@ body{
 	width: 90px;
 	display: inline;
   position: absolute;
+}
+
+#chat .input-group input{
+  height: 70px;
+  font-size: 40px;
+}
+#chat .input-group button{
+  height: 70px;
+  font-size: 40px;
+}
+#chat-input{
+	padding-left: 10px;
+	padding-right: 10px;
+	position: fixed;
+	bottom: 0px;
 }

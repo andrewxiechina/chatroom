@@ -1,9 +1,23 @@
-<ul id="chat">
-  <li class="chat-msg" ng-repeat="msg in messages">
-    <div class="chat-msg container" ng-if="msg.msgType == 'text' ">
-      <img class="chat-msg img" ng-src="assets/images/user.jpg">
-      <div class="chat-msg msg">{{msg.content}}</div>
-      <br style="clear: both">
-    </div>
-  </li>
-</ul>
+<div id="chat">
+  <ul>
+    <li class="chat-msg" ng-repeat="msg in messages">
+      <div class="chat-msg container" ng-if="msg.msgType == 'text' ">
+        <img class="chat-msg img" ng-src="assets/images/user.jpg">
+        <div class="chat-msg msg">{{msg.content}}</div>
+      </div>
+    </li>
+  </ul>
+  <div id="chat-input" class="row">
+    <div class="input-group">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">
+          <span class="glyphicon glyphicon-play" aria-hidden="true"></span>
+        </button>
+      </span>
+      <input type="text" class="form-control" placeholder="Say something here...">
+      <span class="input-group-btn">
+        <button class="btn btn-default" type="button">Send</button>
+      </span>
+    </div><!-- /input-group -->
+  </div><!-- /.row -->
+</div>
